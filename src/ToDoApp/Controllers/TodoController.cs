@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApp.AppServices.Dtos;
 using ToDoApp.AppServices.Interfaces;
+using ToDoApp.Extensions;
+using ToDoApp.Validators;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,11 +16,14 @@ namespace ToDoApp.Controllers
     public class TodoController : Controller
     {
         private readonly ITodoAppService appService;
+        private readonly TodoValidator validator;
 
-        public TodoController(ITodoAppService appService)
+        public TodoController(ITodoAppService appService, Validators.TodoValidator validator)
         {
             this.appService = appService;
+            this.validator = validator;
         }
+
         // GET: api/values
         [HttpGet]
         public IEnumerable<TodoDto> Get([FromBody]TodoFilterDto filter)
@@ -37,6 +42,14 @@ namespace ToDoApp.Controllers
         [HttpPost]
         public TodoDto Post([FromBody]TodoDto model)
         {
+            try
+            {
+
+            }
+            catch
+            {
+
+            }
             return appService.Create(model);
         }
 

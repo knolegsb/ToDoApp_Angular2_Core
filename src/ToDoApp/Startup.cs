@@ -30,6 +30,21 @@ namespace ToDoApp
             IoC.IoCConfiguration.Configure(services);
             services.AddSingleton(Configuration);
 
+            services.AddSwaggerGen();
+            var pathToDoc = Configuration["Swagger:Path"];
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SingleApiVersion(new Swashbuckle.Swagger.Model.Info
+                {
+                    Version = "v1",
+                    Title = "TodoApp Api",
+                    Description = "",
+                    TermsOfService = "none"
+                });
+                //options.IncludeXmlComments(pathToDoc);
+                options.DescribeAllEnumsAsStrings();
+            });
+
             // Add framework services.
             services.AddMvc();
             Mappings.AutoMapperConfiguration.Initialize();
@@ -59,6 +74,9 @@ namespace ToDoApp
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUi();
         }
     }
 }
