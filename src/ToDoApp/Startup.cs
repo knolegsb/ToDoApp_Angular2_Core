@@ -29,6 +29,7 @@ namespace ToDoApp
         {
             IoC.IoCConfiguration.Configure(services);
             services.AddSingleton(Configuration);
+            services.AddScoped<Validators.TodoValidator>();
 
             services.AddSwaggerGen();
             var pathToDoc = Configuration["Swagger:Path"];
@@ -48,6 +49,7 @@ namespace ToDoApp
             // Add framework services.
             services.AddMvc();
             Mappings.AutoMapperConfiguration.Initialize();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +69,7 @@ namespace ToDoApp
             }
 
             app.UseStaticFiles();
-
+            app.UseCors(builder => builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

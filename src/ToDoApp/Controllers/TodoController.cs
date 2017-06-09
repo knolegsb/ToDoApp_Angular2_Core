@@ -107,6 +107,8 @@ namespace ToDoApp.Controllers
                     //var updateResult = appService.Update(model);
                     //result.Success = updateResult;
                     result.Success = appService.Update(model);
+                    if (!result.Success)
+                        throw new Exception($"Todo { id } can't be updated");
                 }
                 catch (Exception ex)
                 {
@@ -131,6 +133,8 @@ namespace ToDoApp.Controllers
             try
             {
                 result.Success = appService.Delete(id);
+                if (!result.Success)
+                    throw new Exception($"Todo { id } can't be deleted");
             }
             catch (Exception ex)
             {
